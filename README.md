@@ -1,2 +1,2 @@
-# multiple-vue
-多页面应用
+# vue
+vue开发环境
