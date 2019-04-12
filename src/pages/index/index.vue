@@ -3,6 +3,7 @@
     {{text}}
         <mt-cell title="折线图" is-link to="line.html"></mt-cell>
         <mt-cell title="饼图" is-link to="pie.html"></mt-cell>
+        <mt-cell title="进度条" is-link to="process.html"></mt-cell>
   </div>
 </template>
 

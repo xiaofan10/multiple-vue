@@ -1,9 +1,6 @@
 <template>
   <div class="page">
     <mt-header title="详情">
-      <!-- <router-link to="/" slot="left">
-        <mt-button icon="back">返回</mt-button>
-      </router-link> -->
     </mt-header>
     <div class="ec-wrap">
       <v-chart :options="polar" />
