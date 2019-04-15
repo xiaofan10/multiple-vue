@@ -9,10 +9,17 @@ import 'echarts/lib/chart/pie'
 import 'mint-ui/lib/style.css'
 import App from './index.vue'
 import utils from '../../utils/utils.js'
+import Process from '../../components/process/process.vue'
+
 utils.setAdaption()
 
 // const router = createRouter()
-Vue.component('v-chart', ECharts)
+Vue.component(
+  'v-chart', ECharts
+)
+Vue.component(
+  'wtx-process', Process
+)
 Vue.use(MintUI)
 
 new Vue({
