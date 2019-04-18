@@ -16,7 +16,7 @@ if (isDev) {
     module: {
       rules: [
         {
-          test: /\.(css|sass)$/,
+          test: /\.(css|scss|sass)$/,
           use: [
             'style-loader',
             {
@@ -46,8 +46,8 @@ if (isDev) {
     },
     devtool: '#cheap-module-eval-source-map',
     devServer: {
-      port: '8001',
-      // host: '0.0.0.0',// 可以通过127.0.0.0.1来访问，也可以通过内网ip来访问
+      port: '8000',
+      // host: '0.0.0.0', // 可以通过127.0.0.0.1来访问，也可以通过内网ip来访问http://10.1.2.126:8000/
       overlay: {
         errors: true, // 如果webpack出现什么错误会直接显示到网页上。
       },

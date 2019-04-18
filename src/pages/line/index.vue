@@ -25,6 +25,7 @@ export default {
         series: [{
             name: '销量',
             type: 'line',
+            smooth: 1,
             data: [5, 20, 36, 10, 10, 20]
         }]
       }

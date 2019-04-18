@@ -68,7 +68,6 @@ export default {
   },
   watch: {
     value (val) {
-      console.log(111)
       this.processAnimate = false;
        this.processBarHeight.width = 0;
        setTimeout(() => {
