@@ -7,6 +7,7 @@
     </mt-header>
     <div class="ec-wrap">
       <v-chart :options="polar" />
+      <v-chart :options="pie" />
     </div>
   </div>
 </template>
@@ -26,10 +27,12 @@ export default {
           left: 'left',
           data: ['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
         },
+        grid: {
+      containLabel: true,
+    },
         series: [{
             name: '销量',
             radius : '55%',
-            center: ['40%', '50%'],
             type: 'pie',
             data: [
                {value:335, name:'直接访问'},
@@ -39,7 +42,64 @@ export default {
               {value:1548, name:'搜索引擎'}
             ]
         }]
-      }
+      },
+      pie:  {
+    tooltip: {
+        trigger: 'item',
+        formatter: "{a} <br/>{b}: {c} ({d}%)"
+    },
+    legend: {
+        show: true,
+        orient: 'horizontal',
+        bottom: 0,
+        itemWidth: 5,
+        itemHeight: 5,
+        icon: "circle",
+        data:['直接访问','邮件营销'],
+        formatter: function (name) {
+          return"<div>"+name+"</div>"
+        }
+    },
+    grid: {
+      containLabel: true,
+    },
+    series: [
+        {
+            name:'访问来源',
+            type:'pie',
+            radius: ['30%', '40%'],
+            avoidLabelOverlap: true,
+            label: {
+                formatter: '{b}: \n {c}个 \n ({d}%)',
+                align: 'center',
+                // normal: {
+                //     show: true,
+                // },
+
+                // emphasis: {
+                //     show: true,
+                //     textStyle: {
+                //         fontSize: '30',
+                //         fontWeight: 'bold'
+                //     }
+                // }
+            },
+
+            labelLine: {
+                normal: {
+                    show: true
+                }
+            },
+
+            data:[
+                {value:635, name:'直接访问'},
+                {value:310, name:'邮件营销'},
+
+            ],
+
+        }
+    ]
+}
     }
   }
 }
