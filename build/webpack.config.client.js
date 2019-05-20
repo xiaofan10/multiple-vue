@@ -73,7 +73,7 @@ if (isDev) {
     module: {
       rules: [
         {
-          test: /\.(css|sass)$/,
+          test: /\.(css|scss|sass)$/,
           use: ExtractTextWebpackPlugin.extract({
             fallback: 'style-loader',
             use: [

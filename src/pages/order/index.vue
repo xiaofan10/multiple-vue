@@ -2,7 +2,10 @@
   <div class="page">
     <wtx-tab></wtx-tab>
     <wv-tabs>
-      <wv-tab v-for="index in 4" :title="'标签特别长特别长特别特别长特别特别长特别长 ' + index">
+      <wv-tab title='收入'>
+        内容
+      </wv-tab>
+      <wv-tab title='礼品支出'>
         内容
       </wv-tab>
     </wv-tabs>
@@ -21,7 +24,7 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style lang="scss">
 @import '../../assets/styles/global.scss';
 
 

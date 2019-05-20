@@ -1,13 +1,19 @@
 <template>
-  <div class="wtx-process">
+  <div :class="['wtx-process', {'wtx-process-direction': isVertical}]">
+    <div class="wtx-process-label">
+      <div class="wtx-process-label-content">
+        <div v-if="prev" class="wtx-process-label-prev" v-html="prev"></div>
+        <div class="wtx-process-label-text">玩天下</div>
+        <div v-if="suff" class="wtx-process-label-suff" v-html="suff"></div>
+      </div>
+      <div v-if="isVertical" class="wtx-process-label-tips" v-html="extra"></div>
+    </div>
     <div class="wtx-process-content">
       <div class="wtx-process-runway" :style="runwayBarHeight"></div>
-      <!-- <transition> -->
         <div
           :class="['wtx-process-process', {animate: processAnimate}]"
           :style="processBarHeight"
         ></div>
-      <!-- </transition> -->
     </div>
   </div>
 </template>
@@ -35,16 +41,30 @@ export default {
     max: {
       type: Number,
       default: 100
+    },
+    isVertical: {
+      type: Boolean,
+      default: true,
+    },
+    extra: {
+      type: Element | String,
+    },
+    prev: {
+      type: String
+    },
+    suff: {
+      type: String
     }
+
   },
   data() {
     return {
       processAnimate: this.isAnimate,
       runwayBarHeight: {
-        height: this.barHeight + 'px'
+        height: this.barHeight / 16 + 'rem',
       },
       processBarHeight: {
-        height: this.barHeight + 'px',
+        height: this.barHeight / 16 + 'rem',
         width: '0%'
       }
     }
@@ -62,16 +82,18 @@ export default {
         }
   },
   mounted() {
+    // 定时器是加载组件后执行更新
     setTimeout(() => {
       this.processBarHeight.width = this.getProcessValue(this.value) + '%';
     },0);
   },
   watch: {
     value (val) {
+      // 监听传入value变化，变化后执行
       this.processAnimate = false;
        this.processBarHeight.width = 0;
        setTimeout(() => {
-         this.processAnimate = true;
+         this.processAnimate = this.isAnimate;
          this.processBarHeight.width = this.getProcessValue(val) + '%';
        },0)
        return val
@@ -79,37 +101,69 @@ export default {
   }
 }
 </script>
-<style lang="sass">
+<style lang="scss" scoped>
+@import '../../assets/styles/global.scss';
+
 .wtx-process {
   position: relative;
   display: flex;
-  height: 30px;
-  line-height: 30px;
+  &.wtx-process-direction {
+    flex-direction: column;
+  }
+  .wtx-process-label {
+    margin: px2rem(5) px2rem(5) px2rem(5) 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: px2rem(16);
+    line-height: 1;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: left;
+    .wtx-process-label-content {
+      display: flex;
+      align-items: center;
+      .wtx-process-label-text {
+
+      }
+    }
+    .wtx-process-label-tips {
+      font-size: px2rem(14);
+      color: #666666;
+      letter-spacing: 0;
+      text-align: left;
+      line-height: 1;
+    }
+  }
+
   .wtx-process-content {
-    position: relative;
+    display: flex;
     flex: 1;
+    align-items: center;
+    position: relative;
+    line-height: 1;
+    border-radius: px2rem(2);
     & > * {
       display: felx;
     }
     .wtx-process-runway {
-      position: absolute;
-      transform: translate(0, -50%);
-      top: 50%;
-      left: 0;
-      right: 0;
+
       background-color: #ebebeb;
-      height: 3px;
+      height: px2rem(3);
+      width: 100%;
+      border-radius: px2rem(2);
     }
     .wtx-process-process {
       position: absolute;
       display: block;
-      background-color: #26a2ff;
+      background: linear-gradient(90deg, #16C6FC 0%, #16A1FC 99%);
       top: 50%;
       transform: translate(0, -50%);
-      height: 3px;
+      height: px2rem(3);
+      border-radius: px2rem(2);
     }
     .animate {
-      transition: all .5s ease-in;
+      transition: width .5s ease-in;
     }
   }
 }

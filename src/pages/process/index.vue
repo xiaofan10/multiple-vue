@@ -5,9 +5,9 @@
     </div>
     <button @click="loadProcess">重跑</button>
 
-    <wtx-process :is-animate="true" :value="value"></wtx-process>
-    <wtx-process :value="value1"></wtx-process>
-    <wtx-process :value="value2"></wtx-process>
+    <wtx-process :is-animate="true" :value="value" :barHeight="20" extra="<div class='xx'>6个(50.0%)</div>"></wtx-process>
+    <wtx-process :value="value1" :barHeight="20"></wtx-process>
+    <wtx-process :value="value2" :barHeight="20"></wtx-process>
     <transition name="fade">
     <p v-if="show">hello</p>
   </transition>
@@ -59,38 +59,40 @@ export default {
     }
   }
 }
-.wtx-process {
-  position: relative;
-  display: flex;
-  height: 30px;
-  line-height: 30px;
-  .wtx-process-content {
-    position: relative;
-    flex: 1;
-    & > * {
-      display: felx;
-    }
-    .wtx-process-runway {
-      position: absolute;
-      transform: translate(0, -50%);
-      top: 50%;
-      left: 0;
-      right: 0;
-      background-color: #ebebeb;
-      height: 3px;
-    }
-    .wtx-process-process {
-      position: absolute;
-      display: block;
-      background-color: #26a2ff;
-      top: 50%;
-      transform: translate(0, -50%);
-      height: 3px;
-    }
-    .animate {
-      transition: all .5s ease-in;
-    }
-  }
+.xx {
 }
+// .wtx-process {
+//   position: relative;
+//   display: flex;
+//   height: 30px;
+//   line-height: 30px;
+//   .wtx-process-content {
+//     position: relative;
+//     flex: 1;
+//     & > * {
+//       display: felx;
+//     }
+//     .wtx-process-runway {
+//       position: absolute;
+//       transform: translate(0, -50%);
+//       top: 50%;
+//       left: 0;
+//       right: 0;
+//       background-color: #ebebeb;
+//       height: 3px;
+//     }
+//     .wtx-process-process {
+//       position: absolute;
+//       display: block;
+//       background-color: #26a2ff;
+//       top: 50%;
+//       transform: translate(0, -50%);
+//       height: 3px;
+//     }
+//     .animate {
+//       transition: all .5s ease-in;
+//     }
+//   }
+// }
 </style>
 

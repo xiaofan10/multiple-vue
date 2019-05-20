@@ -5,6 +5,7 @@
         <mt-cell title="饼图" is-link to="pie.html"></mt-cell>
         <mt-cell title="进度条" is-link to="process.html"></mt-cell>
         <mt-cell title="选项卡" is-link to="order.html"></mt-cell>
+         <mt-cell title="利润" is-link to="profits.html"></mt-cell>
   </div>
 </template>
 

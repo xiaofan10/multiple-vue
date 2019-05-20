@@ -4,7 +4,8 @@ const setAdaption = (baseFontsize) => {
   let refresh = () => {
     let dpr = window.devicePixelRatio;
     let deviceWidth = window.screen.width;
-    let deviceFontsize = deviceWidth / 750 * baseFontsize + 'px'; // 计算rem基准值
+    let deviceFontsize = deviceWidth / 375 * baseFontsize + 'px'; // 计算rem基准值
+    console.log(deviceWidth,dpr,deviceFontsize)
     docEl.setAttribute('data-dpr', dpr);
     docEl.style.fontSize = deviceFontsize;
   };
