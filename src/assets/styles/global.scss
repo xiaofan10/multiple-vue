@@ -5,11 +5,11 @@ $baseFontsize: 16px;
   @if (unitless($pixel)) {
     $pixel: $pixel*1px;
   }
-  @return $pixel/$baseFontsize *1rem;
+  @return $pixel/$baseFontsize/10 *1rem;
 }
 
 @mixin bgs($url) {
-  background-image: url($url);
+  background-image: url($url) no-repeat;
   -webkit-background-size:100%;
   background-size:100%;
 }
@@ -20,6 +20,10 @@ html, body {
   height: 100%;
   width: 100%;
 }
-
+ul, li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 
 

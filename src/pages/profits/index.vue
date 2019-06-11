@@ -3,11 +3,11 @@
     <div class='tab'>
       <wv-tabs :line-width='68' color='#666666' active-color='#16A1FC' background-colo='#f00'>
         <wv-tab title="收入" color='#666666' active-color='#16A1FC' background-colo='#f00'>
-          <div class='card-wrap'>
-            <div class='content-wrap'>
-
-            </div>
-          </div>
+          <wtx-card>
+            <template v-slot:header>
+              总收入
+            </template>
+          </wtx-card>
         </wv-tab>
         <wv-tab title='礼品支出'>
           <div>
@@ -50,19 +50,19 @@ body {
     }
   }
 
-  .card-wrap {
-    display: flex;
-    justify-content: center;
-    padding-top: 1.5rem;
+  // .card-wrap {
+  //   display: flex;
+  //   justify-content: center;
+  //   padding-top: 1.5rem;
 
-    .content-wrap {
-      width: 20.9rem;
-      height: 23.3rem;
-      background: #FFFFFF;
-      box-shadow: 0 2px 10px 0 rgba(0,0,0,0.10);
-      border-radius: 0 0 4px 4px;
-    }
-  }
+  //   .content-wrap {
+  //     width: 20.9rem;
+  //     height: 23.3rem;
+  //     background: #FFFFFF;
+  //     box-shadow: 0 2px 10px 0 rgba(0,0,0,0.10);
+  //     border-radius: 0 0 4px 4px;
+  //   }
+  // }
 
 }
 

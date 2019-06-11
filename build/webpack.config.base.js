@@ -75,7 +75,7 @@ const config = {
         loader: 'vue-loader'
       },
       {
-        test: /\.(gif|jpg|jpeg|png|svg)$/,
+        test: /\.(gif|jpg|jpeg|png|svg|ttf|eot|svg|woff|woff2)$/,
         loader: 'url-loader',
         options: {
           limit: 1024,

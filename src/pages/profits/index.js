@@ -9,6 +9,7 @@ import 'echarts/lib/chart/pie'
 // import 'mint-ui/lib/style.css'
 import App from './index.vue'
 import Tab from '../../components/tab/tab.vue'
+import Card from '../../components/card/card.vue'
 import utils from '../../utils/utils.js'
 
 utils.setAdaption()
@@ -20,6 +21,7 @@ Vue.component(
 Vue.component(
   'wtx-tab', Tab
 )
+Vue.component('wtx-card', Card)
 Vue.use(WeVue)
 
 new Vue({

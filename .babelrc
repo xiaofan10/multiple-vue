@@ -8,8 +8,8 @@
       "component",
       [
         {
-          "libraryName": "mint-ui",
-          "style": true
+          "libraryName": "element-ui",
+          "style": "theme-chalk"
         }
       ]
     ]

@@ -5,9 +5,9 @@
     </div>
     <button @click="loadProcess">重跑</button>
 
-    <wtx-process :is-animate="true" :value="value" :barHeight="20" extra="<div class='xx'>6个(50.0%)</div>"></wtx-process>
-    <wtx-process :value="value1" :barHeight="20"></wtx-process>
-    <wtx-process :value="value2" :barHeight="20"></wtx-process>
+    <wtx-process className="xxxx" :is-animate="true" :value="value" :barHeight="20" extra="<div>'6个(50.0%)'</div>"></wtx-process>
+    <wtx-process label="测试" :value="value1" :barHeight="20" prev="我是前缀" suff="我是后缀"></wtx-process>
+    <wtx-process label="啦啦露露" :value="value2" :barHeight="20" :isVertical="false"></wtx-process>
     <transition name="fade">
     <p v-if="show">hello</p>
   </transition>
@@ -61,6 +61,7 @@ export default {
 }
 .xx {
 }
+
 // .wtx-process {
 //   position: relative;
 //   display: flex;

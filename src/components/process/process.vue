@@ -1,9 +1,9 @@
 <template>
-  <div :class="['wtx-process', {'wtx-process-direction': isVertical}]">
+  <div :class="['wtx-process', {'wtx-process-direction': isVertical}, className]">
     <div class="wtx-process-label">
       <div class="wtx-process-label-content">
         <div v-if="prev" class="wtx-process-label-prev" v-html="prev"></div>
-        <div class="wtx-process-label-text">玩天下</div>
+        <div class="wtx-process-label-text">{{label}}</div>
         <div v-if="suff" class="wtx-process-label-suff" v-html="suff"></div>
       </div>
       <div v-if="isVertical" class="wtx-process-label-tips" v-html="extra"></div>
@@ -22,6 +22,13 @@
 
 export default {
   props: {
+    className: {
+      type: true,
+    },
+    label: {
+      type: String,
+      default: 'Process'
+    },
     isAnimate: {
       type: Boolean,
       default: true
@@ -82,6 +89,7 @@ export default {
         }
   },
   mounted() {
+    console.log(this)
     // 定时器是加载组件后执行更新
     setTimeout(() => {
       this.processBarHeight.width = this.getProcessValue(this.value) + '%';
@@ -123,6 +131,12 @@ export default {
     .wtx-process-label-content {
       display: flex;
       align-items: center;
+      .wtx-process-label-prev {
+        margin-right: px2rem(5);
+      }
+      .wtx-process-label-suff {
+        margin-left: px2rem(5);
+      }
       .wtx-process-label-text {
 
       }

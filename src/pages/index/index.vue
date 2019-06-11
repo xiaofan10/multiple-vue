@@ -5,14 +5,12 @@
         <mt-cell title="饼图" is-link to="pie.html"></mt-cell>
         <mt-cell title="进度条" is-link to="process.html"></mt-cell>
         <mt-cell title="选项卡" is-link to="order.html"></mt-cell>
-         <mt-cell title="利润" is-link to="profits.html"></mt-cell>
+        <mt-cell title="利润" is-link to="profits.html"></mt-cell>
+        <mt-cell title="排行榜" is-link to="ranking.html"></mt-cell>
   </div>
 </template>
 
 <script>
-
-
-
 export default {
   data() {
     return {
@@ -30,7 +28,5 @@ export default {
   .app-wrap {
     position: relative;
     width: 100vw;
-
-
   }
 </style>
