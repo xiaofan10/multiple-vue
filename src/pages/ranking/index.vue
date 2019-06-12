@@ -8,7 +8,7 @@
           <div class="ranking-title"></div>
         </div>
         <ul class="ranking-list">
-          <li class="ranking-list-item" v-for="(item, index) in rankingData">
+          <li class="ranking-list-item" v-for="(item, index) in rankingDataExpert" >
             <div class="ranking-list-item-left">
               <img v-if="index < 3" class="ranking-num" :src="'https://wx-miniprogram-source.oss-cn-beijing.aliyuncs.com/h5img/ranking_'+(index+1)+'.png'"></img>
               <div v-else class="ranking-num">
@@ -17,11 +17,11 @@
             </div>
             <div class="ranking-list-item-right">
               <div class="ranking-userinfo">
-                <img class="ranking-user-avator" src="https://wx-miniprogram-source.oss-cn-beijing.aliyuncs.com/h5img/diligence_list.png" alt="">
-                <div class="ranking-user-name">oO安Oo</div>
+                <img class="ranking-user-avator" :src="item.avatar" alt="">
+                <div class="ranking-user-name">{{item.nickname}}</div>
               </div>
               <div class="ranking-gameinfo">
-                  捕中1020次
+                  捕中{{item.number}}次
               </div>
             </div>
           </li>
@@ -32,7 +32,7 @@
           <div class="ranking-title"></div>
         </div>
         <ul class="ranking-list">
-          <li class="ranking-list-item" v-for="(item, index) in rankingData">
+          <li class="ranking-list-item" v-for="(item, index) in rankingDataGames">
             <div class="ranking-list-item-left">
               <img v-if="index < 3" class="ranking-num" :src="'https://wx-miniprogram-source.oss-cn-beijing.aliyuncs.com/h5img/ranking_'+(index+1)+'.png'"></img>
               <div v-else class="ranking-num">
@@ -41,11 +41,11 @@
             </div>
             <div class="ranking-list-item-right">
               <div class="ranking-userinfo">
-                <img class="ranking-user-avator" src="https://wx-miniprogram-source.oss-cn-beijing.aliyuncs.com/h5img/diligence_list.png" />
-                <div class="ranking-user-name">oO安Oo</div>
+                <img class="ranking-user-avator" :src="item.avatar" />
+                <div class="ranking-user-name">{{item.nickname}}</div>
               </div>
               <div class="ranking-gameinfo">
-                  捕中1020次
+                  游戏{{item.number}}次
               </div>
             </div>
           </li>
@@ -56,13 +56,13 @@
       <div class="footer-left">
         <img class="popular-sign" src="https://wx-miniprogram-source.oss-cn-beijing.aliyuncs.com/h5img/popular_sign.png" alt="">
         <ul class="footer-list-wrap">
-          <li class="footer-list-item" v-for="item in giftData">
+          <li class="footer-list-item" v-for="item in popularData">
             <div class="footer-list-item-top">
-              <img class="picture" src="https://wx-miniprogram-source.oss-cn-beijing.aliyuncs.com/h5img/diligence_list.png" />
+              <img class="picture" :src="item.giftPicUrl" />
             </div>
             <div class="footer-list-item-bottom">
               <div class="footer-title">抓取次数</div>
-              <div class="footer-text">321次</div>
+              <div class="footer-text">{{item.catchCount}}次</div>
             </div>
           </li>
         </ul>
@@ -92,8 +92,101 @@
 export default {
   data () {
     return {
-      rankingData: [{},{},{},{},{}],
-      giftData: [{},{},{}]
+      rankingDataGames: [],
+      rankingDataExpert: [],
+      popularData: []
+    }
+  },
+  created () {
+    this.queryRankingData('expertRankingNew');
+    this.queryRankingData('gamesRankingNew');
+    this.queryPopularData();
+  },
+  methods: {
+    queryRankingData (type) {
+      const timestamp = Date.parse(new Date());
+      const MessageID = this.$uuid();
+      let ClientID = this.$uuid();
+      const headers = {
+        'content-type': 'application/json',
+        'ClientID': ClientID,
+        'Sign': MessageID + ClientID + '5' + timestamp,
+        'timestamp': timestamp,
+        'MessageID': MessageID,
+        'ClientType': '5'
+      };
+      const data = {
+        status: 1,
+        type: 1,
+        dayStatus: 3
+      }
+      const instance = this.$axios.create({
+        baseURL: 'http://39.105.231.43:9001',
+        timeout: 1000,
+        headers,
+      });
+      instance({
+        url:`/api/box/ranking/${type}`,
+        method: 'POST',
+        data
+      }).then((res) => {
+        console.log(res.data.list)
+        const { data } = res;
+        if(data.code === 0) {
+          data.list.map((item) => {
+            if(item.avatar) {
+              item.avatar += '/thumbnail';
+            } else {
+              item.avatar = 'https://wx-miniprogram-source.oss-cn-beijing.aliyuncs.com/img/common/group.png';
+            }
+          });
+          if(type === 'gamesRankingNew') {
+            this.rankingDataGames = data.list.splice(0,5);
+          } else {
+            this.rankingDataExpert = data.list.splice(0,5);
+          }
+        }
+      })
+    },
+    queryPopularData () {
+       const timestamp = Date.parse(new Date());
+      const MessageID = this.$uuid();
+      let ClientID = this.$uuid();
+      const headers = {
+        'content-type': 'application/json',
+        'ClientID': ClientID,
+        'Sign': MessageID + ClientID + '5' + timestamp,
+        'timestamp': timestamp,
+        'MessageID': MessageID,
+        'ClientType': '5'
+      };
+      const data = {
+        type: 1,
+        dayStatus: 3,
+      }
+      const instance = this.$axios.create({
+        baseURL: 'http://39.105.231.43:9001',
+        timeout: 1000,
+        headers,
+      });
+      instance({
+        url:`/api/box/game/mostPopularGift`,
+        method: 'POST',
+        data
+      }).then((res) => {
+        console.log(res.data.list)
+        const { data } = res;
+        if(data.code === 0) {
+          data.list.map((item) => {
+            if(item.giftPicUrl) {
+              item.giftPicUrl += '/thumbnail';
+            } else {
+              item.giftPicUrl = 'https://wx-miniprogram-source.oss-cn-beijing.aliyuncs.com/img/gifts/lipinmoren.png';
+            }
+          });
+          this.popularData = data.list.splice(0,3);
+        }
+      })
     }
   },
   computed: {
@@ -214,10 +307,14 @@ body {
                 border-radius:50%;
               }
               .ranking-user-name {
+                max-width: px2rem(650px);
                 font-size: px2rem(83px);
                 font-family:SourceHanSansCN-Bold;
                 font-weight:bold;
                 color:rgba(40,63,95,1);
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
               }
             }
           }

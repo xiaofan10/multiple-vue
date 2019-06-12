@@ -55,8 +55,8 @@ if (isDev) {
       //   index: '/dist/index.html'
       // },
       proxy: {
-        '/api': 'http://127.0.0.1:3333',
-        '/user': 'http://127.0.0.1:3333'
+        '/api': 'http://39.105.231.43:9001',
+        // '/user': 'http://127.0.0.1:3333'
       },
       open: false, // 自动打开浏览器
       hot: true, // 启动要配合下面两个插件的启用，不然不会生效
