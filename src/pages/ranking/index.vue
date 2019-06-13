@@ -72,11 +72,12 @@
         <div class="footer-qrcode-wrap">
           <div class="footer-qrcode-wrap-top">
             <div class="footer-qrcode-item">
-              <img class="footer-qrcode" src="https://wx-miniprogram-source.oss-cn-beijing.aliyuncs.com/h5img/program_code.png" />
-              <div class="footer-qrcode-type">门店公众号</div>
+              <!-- <img class="footer-qrcode" src="https://wx-miniprogram-source.oss-cn-beijing.aliyuncs.com/img/integral/mini_program_code.png" /> -->
+              <canvas class="footer-qrcode store-qrcode" id="canvas"></canvas>
+              <div class="footer-qrcode-type">店铺二维码</div>
             </div>
              <div class="footer-qrcode-item">
-              <img class="footer-qrcode" src="https://wx-miniprogram-source.oss-cn-beijing.aliyuncs.com/h5img/program_code.png" />
+              <img id="code" class="footer-qrcode" src="https://wx-miniprogram-source.oss-cn-beijing.aliyuncs.com/h5img/program_code.png" />
               <div class="footer-qrcode-type">玩天下APP</div>
             </div>
           </div>
@@ -89,6 +90,8 @@
 </template>
 
 <script>
+import QRCode from 'qrcode'
+
 export default {
   data () {
     return {
@@ -97,13 +100,37 @@ export default {
       popularData: []
     }
   },
+  components: {
+    QRCode,
+  },
   created () {
-    this.queryRankingData('expertRankingNew');
-    this.queryRankingData('gamesRankingNew');
-    this.queryPopularData();
+    this.storeId = location.href.split('?')[1].split('=')[1];
+    this.queryRankingData('expertRankingNew',this.storeId);
+    this.queryRankingData('gamesRankingNew',this.storeId);
+    this.queryPopularData(this.storeId);
+    this.timer = setInterval(() => {
+        this.queryRankingData('expertRankingNew',this.storeId);
+        this.queryRankingData('gamesRankingNew',this.storeId);
+        this.queryPopularData(this.storeId);
+    },120000);
+  },
+  mounted () {
+     this.utils.setAdaptionBig(() => {
+              this.createQrcode();
+          })
   },
   methods: {
-    queryRankingData (type) {
+    onresize () {
+      if(!this.timerOut) {
+        this.timerOut = setTimeout(() => {
+          this.utils.setAdaptionBig(() => {
+              this.createQrcode();
+          })
+          this.timerOut = null;
+        },1000)
+      }
+    },
+    queryRankingData (type, storeId) {
       const timestamp = Date.parse(new Date());
       const MessageID = this.$uuid();
       let ClientID = this.$uuid();
@@ -117,7 +144,8 @@ export default {
       };
       const data = {
         status: 1,
-        type: 1,
+        type: 2,
+        storeId,
         dayStatus: 3
       }
       const instance = this.$axios.create({
@@ -130,7 +158,6 @@ export default {
         method: 'POST',
         data
       }).then((res) => {
-        console.log(res.data.list)
         const { data } = res;
         if(data.code === 0) {
           data.list.map((item) => {
@@ -148,8 +175,8 @@ export default {
         }
       })
     },
-    queryPopularData () {
-       const timestamp = Date.parse(new Date());
+    queryPopularData (storeId) {
+      const timestamp = Date.parse(new Date());
       const MessageID = this.$uuid();
       let ClientID = this.$uuid();
       const headers = {
@@ -161,8 +188,9 @@ export default {
         'ClientType': '5'
       };
       const data = {
-        type: 1,
+        type: 2,
         dayStatus: 3,
+        storeId
       }
       const instance = this.$axios.create({
         baseURL: 'http://39.105.231.43:9001',
@@ -174,7 +202,6 @@ export default {
         method: 'POST',
         data
       }).then((res) => {
-        console.log(res.data.list)
         const { data } = res;
         if(data.code === 0) {
           data.list.map((item) => {
@@ -187,10 +214,35 @@ export default {
           this.popularData = data.list.splice(0,3);
         }
       })
+    },
+    createQrcode () {
+
+      const canvas = document.getElementById('canvas');
+      const code = document.getElementById('code');
+      const width = code.offsetWidth;
+      console.log(width)
+      QRCode.toCanvas(canvas, `http://www.wantx.com/api/qrcode/scan?storeId=${this.storeId}`, {
+        width,
+        scale: 1,
+        margin: 1,
+      },function (error) {
+        if (error) console.error(error)
+        console.log('success!');
+        })
     }
   },
   computed: {
 
+  },
+  beforeDestroy () {
+    if(this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
+    if(this.timerOut) {
+      clearTimeout(this.timerOut);
+      this.timerOut = null;
+    }
   }
 }
 </script>
@@ -307,7 +359,7 @@ body {
                 border-radius:50%;
               }
               .ranking-user-name {
-                max-width: px2rem(650px);
+                max-width: px2rem(700px);
                 font-size: px2rem(83px);
                 font-family:SourceHanSansCN-Bold;
                 font-weight:bold;
@@ -338,6 +390,7 @@ body {
         }
         .footer-list-wrap {
           display: flex;
+          min-width: px2rem(2110px);
           .footer-list-item {
             margin-right: px2rem(66px);
             height: px2rem(678px);
@@ -399,7 +452,7 @@ body {
               flex-direction: column;
               width: px2rem(477px);
               height: px2rem(563px);
-              background:rgba(249,241,70,1);
+              background:#fff;
               border: px2rem(10px) solid rgba(71,15,24,1);
               box-sizing: border-box;
               .footer-qrcode {
@@ -407,6 +460,12 @@ body {
                 width: px2rem(425px);
                 height: px2rem(425px);
                 background: #fff;
+              }
+              .footer-qrcode.store-qrcode {
+                box-sizing: border-box;
+                width: px2rem(445px);
+                height: px2rem(445px);
+                padding: 0;
               }
               .footer-qrcode-type {
                 display: flex;
@@ -418,6 +477,7 @@ body {
                 font-family:SourceHanSansCN-Bold;
                 font-weight:bold;
                 color:rgba(42,15,32,1);
+                background:rgba(249,241,70,1);
               }
             }
           }
@@ -431,7 +491,5 @@ body {
       }
     }
   }
-
-
 </style>
 

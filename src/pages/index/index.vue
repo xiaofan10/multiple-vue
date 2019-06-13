@@ -6,7 +6,7 @@
         <mt-cell title="进度条" is-link to="process.html"></mt-cell>
         <mt-cell title="选项卡" is-link to="order.html"></mt-cell>
         <mt-cell title="利润" is-link to="profits.html"></mt-cell>
-        <mt-cell title="排行榜" is-link to="ranking.html"></mt-cell>
+        <mt-cell title="排行榜" is-link to="ranking.html?storeid=8"></mt-cell>
   </div>
 </template>
 
